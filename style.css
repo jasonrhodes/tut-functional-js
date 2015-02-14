@@ -12,6 +12,7 @@ a:link, a:hover, a:active, a:visited {
   width: 95%;
   margin: 0 auto;
   max-width: 500px;
+  text-align: center;
 }
 
 .fancy {
@@ -24,8 +25,8 @@ a:link, a:hover, a:active, a:visited {
 }
 
 a.header-logo {
-  color: white;
-  font-size: 1.5em;
+  color: red;
+  font-size: 3.5em;
   text-decoration: none;
   text-align: center;
 }
@@ -34,8 +35,10 @@ a.header-logo {
   line-height: 2.7;
 }
 
-#filters a {
-  
+#filters a.btn-active {
+  background-color: red;
+  color: white;
+  border-color: red;
 }
 
 #beerList {
@@ -46,6 +49,11 @@ a.header-logo {
 #beerList li {
   list-style: none;
   padding-left: 0;
-  font-size: 1.3em;
+  font-size: 2em;
   line-height: 1.5;
+}
+
+#beerList li small {
+  font-size: 0.75em;
+  color: #bbb;
 }
