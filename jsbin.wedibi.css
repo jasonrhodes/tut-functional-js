@@ -1,0 +1,51 @@
+body {
+  background: url("http://i.imgur.com/IDJdOFb.jpg") top left repeat;
+  color: white;
+}
+
+a:link, a:hover, a:active, a:visited {
+  color: #666;
+  text-decoration: none;
+}
+
+.site-container {
+  width: 95%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.fancy {
+  font-family: 'Rye', Georga, display, serif;
+}
+
+.site-header {
+  text-align: center;
+  padding: 1em 0;
+}
+
+a.header-logo {
+  color: white;
+  font-size: 1.5em;
+  text-decoration: none;
+  text-align: center;
+}
+
+#filters {
+  line-height: 2.7;
+}
+
+#filters a {
+  
+}
+
+#beerList {
+  margin: 1em 0;
+  padding-left: 0;
+}
+
+#beerList li {
+  list-style: none;
+  padding-left: 0;
+  font-size: 1.3em;
+  line-height: 1.5;
+}

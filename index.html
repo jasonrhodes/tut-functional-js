@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://rawgit.com/lodash/lodash/3.0.1/lodash.min.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+  <meta charset="utf-8">
+  <title>Functional JS</title>
+  <link href='http://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
+<style id="jsbin-css">
+body {
+  background: url("http://i.imgur.com/IDJdOFb.jpg") top left repeat;
+  color: white;
+}
+
+a:link, a:hover, a:active, a:visited {
+  color: #666;
+  text-decoration: none;
+}
+
+.site-container {
+  width: 95%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.fancy {
+  font-family: 'Rye', Georga, display, serif;
+}
+
+.site-header {
+  text-align: center;
+  padding: 1em 0;
+}
+
+a.header-logo {
+  color: white;
+  font-size: 1.5em;
+  text-decoration: none;
+  text-align: center;
+}
+
+#filters {
+  line-height: 2.7;
+}
+
+#filters a {
+  
+}
+
+#beerList {
+  margin: 1em 0;
+  padding-left: 0;
+}
+
+#beerList li {
+  list-style: none;
+  padding-left: 0;
+  font-size: 1.3em;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="site-container">
+  <header class="site-header">
+    <a href="/" class="header-logo fancy">( McCarthy's Pub )</a>
+  </header>
+  
+  <h1 class="fancy">Beer List</h1>
+  
+   <div id="filters">
+     <h5>Filters</h5>
+    <a href="#" class="btn btn-default" data-filter="domestic">Domestic</a>
+    <a href="#" class="btn btn-default" data-filter="imports">Imports</a>
+    <a href="#" class="btn btn-default" data-filter="craft">Craft</a>
+    <a href="#" class="btn btn-default" data-filter="ipa">IPAs</a>
+    <a href="#" class="btn btn-default">Lagers</a>
+    <a href="#" class="btn btn-default">Stouts</a>
+    <a href="#" class="btn btn-default">Porters</a>
+    <a href="#" class="btn btn-default">Current Seasonals</a>
+  </div>
+  
+  <ul id="beerList"></ul>
+  
+  <script type="text/json" id="beerData">
+  {
+    "beers": [
+      {"name": "Good Beer", "locale": "import"},
+      {"name": "Beer Two", "locale": "domestic"},
+      {"name": "Dragonblood", "locale": "domestic", "craft": true },
+      {"name": "Other Beer", "locale": "import"},
+      {"name": "Bitter Hop", "locale": "domestic", "craft": true},
+      {"name": "Best Beer", "locale": "import"},
+      {"name": "Beer Five", "locale": "domestic"},
+      {"name": "King George XI", "locale": "domestic", "craft": true },
+      {"name": "Winter Warmer", "locale": "import"},
+      {"name": "Snowpants", "locale": "domestic", "craft": true}
+    ]
+  }
+  </script>
+  
+  <script type="text/template" id="tmpl-beer">
+  <% _.forEach(beers, function (beer) { %>
+  <li><%= beer.name %></li>
+  <% }); %>
+  </script>
+  
+</div> 
+<script id="jsbin-javascript">
+console.clear();
+var beerData = JSON.parse(document.getElementById("beerData").textContent);
+var beerTemplate = document.getElementById("tmpl-beer").textContent;
+var beerList = document.getElementById("beerList");
+var filters = document.getElementById("filters");
+
+beerList.innerHTML = _.template(beerTemplate)(beerData);
+
+filters.addEventListener('click', function (e) {
+  e.preventDefault();
+  var beers = beerData.beers;
+  var filter = e.target.dataset.filter;
+  var filteredBeers = [];
+  var i;
+      
+  switch (filter) {
+    case 'domestic':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].locale === 'domestic') {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+    case 'imports':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].locale === 'import') {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+    case 'craft':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].craft) {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+  }
+    
+  beerList.innerHTML = _.template(beerTemplate)({ beers: filteredBeers });
+});
+</script>
+
+<script id="jsbin-source-html" type="text/html"><!DOCTYPE html>
+<html>
+<head>
+<script src="https://rawgit.com/lodash/lodash/3.0.1/lodash.min.js"><\/script>
+<script src="//code.jquery.com/jquery.min.js"><\/script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"><\/script>
+
+  <meta charset="utf-8">
+  <title>Functional JS</title>
+  <link href='http://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="site-container">
+  <header class="site-header">
+    <a href="/" class="header-logo fancy">( McCarthy's Pub )</a>
+  </header>
+  
+  <h1 class="fancy">Beer List</h1>
+  
+   <div id="filters">
+     <h5>Filters</h5>
+    <a href="#" class="btn btn-default" data-filter="domestic">Domestic</a>
+    <a href="#" class="btn btn-default" data-filter="imports">Imports</a>
+    <a href="#" class="btn btn-default" data-filter="craft">Craft</a>
+    <a href="#" class="btn btn-default" data-filter="ipa">IPAs</a>
+    <a href="#" class="btn btn-default">Lagers</a>
+    <a href="#" class="btn btn-default">Stouts</a>
+    <a href="#" class="btn btn-default">Porters</a>
+    <a href="#" class="btn btn-default">Current Seasonals</a>
+  </div>
+  
+  <ul id="beerList"></ul>
+  
+  <script type="text/json" id="beerData">
+  {
+    "beers": [
+      {"name": "Good Beer", "locale": "import"},
+      {"name": "Beer Two", "locale": "domestic"},
+      {"name": "Dragonblood", "locale": "domestic", "craft": true },
+      {"name": "Other Beer", "locale": "import"},
+      {"name": "Bitter Hop", "locale": "domestic", "craft": true},
+      {"name": "Best Beer", "locale": "import"},
+      {"name": "Beer Five", "locale": "domestic"},
+      {"name": "King George XI", "locale": "domestic", "craft": true },
+      {"name": "Winter Warmer", "locale": "import"},
+      {"name": "Snowpants", "locale": "domestic", "craft": true}
+    ]
+  }
+  <\/script>
+  
+  <script type="text/template" id="tmpl-beer">
+  <% _.forEach(beers, function (beer) { %>
+  <li><%= beer.name %></li>
+  <% }); %>
+  <\/script>
+  
+</div> 
+</body>
+</html></script>
+
+<script id="jsbin-source-css" type="text/css">body {
+  background: url("http://i.imgur.com/IDJdOFb.jpg") top left repeat;
+  color: white;
+}
+
+a:link, a:hover, a:active, a:visited {
+  color: #666;
+  text-decoration: none;
+}
+
+.site-container {
+  width: 95%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.fancy {
+  font-family: 'Rye', Georga, display, serif;
+}
+
+.site-header {
+  text-align: center;
+  padding: 1em 0;
+}
+
+a.header-logo {
+  color: white;
+  font-size: 1.5em;
+  text-decoration: none;
+  text-align: center;
+}
+
+#filters {
+  line-height: 2.7;
+}
+
+#filters a {
+  
+}
+
+#beerList {
+  margin: 1em 0;
+  padding-left: 0;
+}
+
+#beerList li {
+  list-style: none;
+  padding-left: 0;
+  font-size: 1.3em;
+  line-height: 1.5;
+}</script>
+
+<script id="jsbin-source-javascript" type="text/javascript">console.clear();
+var beerData = JSON.parse(document.getElementById("beerData").textContent);
+var beerTemplate = document.getElementById("tmpl-beer").textContent;
+var beerList = document.getElementById("beerList");
+var filters = document.getElementById("filters");
+
+beerList.innerHTML = _.template(beerTemplate)(beerData);
+
+filters.addEventListener('click', function (e) {
+  e.preventDefault();
+  var beers = beerData.beers;
+  var filter = e.target.dataset.filter;
+  var filteredBeers = [];
+  var i;
+      
+  switch (filter) {
+    case 'domestic':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].locale === 'domestic') {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+    case 'imports':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].locale === 'import') {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+    case 'craft':
+      for (i=0; i<beers.length; i++) {
+        if (beers[i].craft) {
+          filteredBeers.push(beers[i]);
+        }
+      }
+      break;
+  }
+    
+  beerList.innerHTML = _.template(beerTemplate)({ beers: filteredBeers });
+});
+</script></body>
+</html>
