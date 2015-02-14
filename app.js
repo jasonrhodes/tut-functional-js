@@ -16,11 +16,11 @@ function setActiveFilter(active) {
   active.classList.add('btn-active');
 }
 
-function filterBeers(cb) {
+function filterBeers(beersToFilter, cb) {
   var filtered = [];
-  for (i=0; i<beers.length; i++) {
-    if (cb(beers[i])) {
-      filtered.push(beers[i]);
+  for (i=0; i<beersToFilter.length; i++) {
+    if (cb(beersToFilter[i])) {
+      filtered.push(beersToFilter[i]);
     }
   }
   return filtered;
@@ -32,41 +32,39 @@ filters.addEventListener('click', function (e) {
   e.preventDefault();
   var clicked = e.target;
   var filter = clicked.dataset.filter;
-  var filteredBeers = [];
   var i;
 
   setActiveFilter(clicked);
       
   switch (filter) {
     case 'all':
-      filteredBeers = beers;
+      loadBeers(beers);
       break;
     case 'domestic':
-      filteredBeers = filterBeers(function (beer) {
+      loadBeers(filterBeers(beers, function (beer) {
         return beer.locale === 'domestic';
-      });
+      }));
       break;
     case 'imports':
-      filteredBeers = filterBeers(function (beer) {
+      loadBeers(filterBeers(beers, function (beer) {
         return beer.locale === 'import';
-      });
+      }));
       break;
     case 'ale':
-      filteredBeers = filterBeers(function (beer) {
+      loadBeers(filterBeers(beers, function (beer) {
         return beer.type === 'ale' || beer.type === 'ipa';
-      });
+      }));
       break;
     case 'lager':
-      filteredBeers = filterBeers(function (beer) {
+      loadBeers(filterBeers(beers, function (beer) {
         return beer.type === 'lager';
-      });
+      }));
       break;
     case 'stout':
-      filteredBeers = filterBeers(function (beer) {
+      loadBeers(filterBeers(beers, function (beer) {
         return beer.type === 'stout';
-      });
+      }));
       break;
   }
-    
-  loadBeers(filteredBeers);
+
 });
