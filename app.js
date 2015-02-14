@@ -5,9 +5,6 @@ var beerList = document.getElementById("beerList");
 var filters = document.getElementById("filters");
 var filterLinks = filters.querySelectorAll("a");
 
-var filterByLocale = makeFilter('locale');
-var filterByType = makeFilter('type');
-
 function loadBeers(beers) {
   beerList.innerHTML = _.template(beerTemplate)({ beers: beers });
 }
@@ -19,32 +16,14 @@ function setActiveFilter(active) {
   active.classList.add('btn-active');
 }
 
-function filterBeers(property, values) {
+function filterBeers(cb) {
   var filtered = [];
   for (i=0; i<beers.length; i++) {
-    if (compareValues(beers[i], property, values)) {
+    if (cb(beers[i])) {
       filtered.push(beers[i]);
     }
   }
   return filtered;
-}
-
-function compareValues(item, property, values) {
-  if (!Array.isArray(values)) {
-    return item[property] === values;
-  }
-  for (var i=0; i<values.length; i++) {
-    if (item[property] === values[i]) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function makeFilter(property) {
-  return function (values) {
-    return filterBeers(property, values);
-  };
 }
 
 loadBeers(beers);
@@ -63,19 +42,29 @@ filters.addEventListener('click', function (e) {
       filteredBeers = beers;
       break;
     case 'domestic':
-      filteredBeers = filterByLocale('domestic');
+      filteredBeers = filterBeers(function (beer) {
+        return beer.locale === 'domestic';
+      });
       break;
     case 'imports':
-      filteredBeers = filterByLocale('import');
+      filteredBeers = filterBeers(function (beer) {
+        return beer.locale === 'import';
+      });
       break;
     case 'ale':
-      filteredBeers = filterByType(['ipa', 'ale']);
+      filteredBeers = filterBeers(function (beer) {
+        return beer.type === 'ale' || beer.type === 'ipa';
+      });
       break;
     case 'lager':
-      filteredBeers = filterByType('lager');
+      filteredBeers = filterBeers(function (beer) {
+        return beer.type === 'lager';
+      });
       break;
     case 'stout':
-      filteredBeers = filterByType('stout');
+      filteredBeers = filterBeers(function (beer) {
+        return beer.type === 'stout';
+      });
       break;
   }
     
