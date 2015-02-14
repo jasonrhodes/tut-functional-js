@@ -25,13 +25,15 @@
         </div>
         
         <ul id="beerList"></ul>
+
+        <p id="averageAbv"></p>
         
         <script type="text/json" id="beerData">
         {
             "beers": [
-                {"name": "Bitter Hop", "type": "ipa", "locale": "domestic", "abv": 7.9},
-                {"name": "Dragonblood Black IPA", "type": "ipa", "locale": "domestic", "abv": 6.5},
-                {"name": "Good Dog Lager", "type": "lager", "locale": "domestic", "abv": 4.8},
+                {"name": "Bitter Hop", "type": "ipa", "locale": "domestic", "abv": 8.3},
+                {"name": "Dragonblood Black IPA", "type": "ipa", "locale": "domestic", "abv": 7.5},
+                {"name": "Good Dog Lager", "type": "lager", "locale": "domestic", "abv": 6.8},
                 {"name": "Good Dog Snowpants", "type": "stout", "locale": "domestic", "abv": 8.1},
                 {"name": "Lake Erie 2x IPA", "type": "ipa", "locale": "domestic", "abv": 9.3},
                 {"name": "Lake Erie Session", "type": "ale", "locale": "domestic", "abv": 4.2},
@@ -47,7 +49,7 @@
         
         <script type="text/template" id="tmpl-beer">
         <% _.forEach(beers, function (beer) { %>
-        <li><%= beer.name %> <small>(<%= beer.abv %>%)</small></li>
+        <li<% if (beer.special) { %> class='special'<% } %>><%= beer.name %> <small>(<%= beer.abv %>%)</small></li>
         <% }); %>
         </script>
         
