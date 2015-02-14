@@ -5,6 +5,9 @@ var beerList = document.getElementById("beerList");
 var filters = document.getElementById("filters");
 var filterLinks = filters.querySelectorAll("a");
 
+var filterByLocale = makeFilter('locale');
+var filterByType = makeFilter('type');
+
 function loadBeers(beers) {
   beerList.innerHTML = _.template(beerTemplate)({ beers: beers });
 }
@@ -38,6 +41,12 @@ function compareValues(item, property, values) {
   return false;
 }
 
+function makeFilter(property) {
+  return function (values) {
+    return filterBeers(property, values);
+  };
+}
+
 loadBeers(beers);
 
 filters.addEventListener('click', function (e) {
@@ -54,19 +63,19 @@ filters.addEventListener('click', function (e) {
       filteredBeers = beers;
       break;
     case 'domestic':
-      filteredBeers = filterBeers('locale', 'domestic');
+      filteredBeers = filterByLocale('domestic');
       break;
     case 'imports':
-      filteredBeers = filterBeers('locale', 'import');
+      filteredBeers = filterByLocale('import');
       break;
     case 'ale':
-      filteredBeers = filterBeers('type', ['ipa', 'ale']);
+      filteredBeers = filterByType(['ipa', 'ale']);
       break;
     case 'lager':
-      filteredBeers = filterBeers('type', 'lager');
+      filteredBeers = filterByType('lager');
       break;
     case 'stout':
-      filteredBeers = filterBeers('type', 'stout');
+      filteredBeers = filterByType('stout');
       break;
   }
     
