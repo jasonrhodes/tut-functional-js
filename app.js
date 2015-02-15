@@ -1,25 +1,32 @@
 var beerData = JSON.parse(document.getElementById("beerData").textContent);
+var beers = beerData.beers;
 var beerTemplate = document.getElementById("tmpl-beer").textContent;
 var beerList = document.getElementById("beerList");
 var filters = document.getElementById("filters");
 var filterLinks = filters.querySelectorAll("a");
 
-beerList.innerHTML = _.template(beerTemplate)(beerData);
+function loadBeers(beers) {
+  beerList.innerHTML = _.template(beerTemplate)({ beers: beers });
+}
+
+function setActiveFilter(active) {
+  for (i=0; i<filterLinks.length; i++) {
+    filterLinks[i].classList.remove('btn-active');
+  }
+  active.classList.add('btn-active');
+}
+
+loadBeers(beers);
 
 filters.addEventListener('click', function (e) {
   e.preventDefault();
-  var beers = beerData.beers;
   var clicked = e.target;
   var filter = clicked.dataset.filter;
   var filteredBeers = [];
   var i;
-
-  for (i=0; i<filterLinks.length; i++) {
-    filterLinks[i].classList.remove('btn-active');
-  }
-
-  clicked.classList.add('btn-active');
-      
+  
+  setActiveFilter(clicked);
+        
   switch (filter) {
     case 'all':
       filteredBeers = beers;
@@ -60,6 +67,6 @@ filters.addEventListener('click', function (e) {
       }
       break;
   }
-    
-  beerList.innerHTML = _.template(beerTemplate)({ beers: filteredBeers });
+  
+  loadBeers(filteredBeers);
 });
