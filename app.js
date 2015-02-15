@@ -49,6 +49,12 @@ fp.reduce = function (arr, callback, initial) {
   return last;
 }
 
+fp.pluck = function (arr, prop) {
+  return fp.map(arr, function (item) {
+    return item[prop];
+  });
+}
+
 fp.groupBy = function (arr, callback) {
   var groups = {};
   var key;
@@ -63,26 +69,24 @@ fp.groupBy = function (arr, callback) {
   return groups;
 }
 
-// function getAverageAbv(beers) {
-//   var abvs = [];
-//   var sum = 0;
-//   for (var i=0; i<beers.length; i++) {
-//     abvs.push(beers[i].abv);
-//     sum += beers[i].abv;
-//   }
-//   return Math.round((sum / abvs.length) * 10) / 10;
-// }
+fp.mean = function (arr, prop) {
+  if (typeof arr[0] === 'object') {
+    arr = fp.pluck(arr, prop);
+  }
+  return fp.reduce(arr, add, 0) / arr.length;
+}
 
 function add(a, b) {
   return a + b;
 }
 
-function getAverageAbv(beers) {
-  var sum = fp.reduce(fp.map(beers, function (beer) {
-    return beer.abv;
-  }), add, 0);
+function roundDecimal(num, places) {
+  var factor = Math.pow(10, places);
+  return Math.round(num * factor) / factor;
+}
 
-  return Math.round((sum / beers.length) * 10) / 10;
+function getAverageAbv(beers) {
+  return roundDecimal(fp.mean(beers, 'abv'), 1);
 }
 
 loadBeers(beers);

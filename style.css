@@ -54,15 +54,8 @@ a.header-logo {
   margin-bottom: 0.5em;
 }
 
-#beerList .special {
-  background-color: goldenrod;
-}
-#beerList .special:after {
-  content: '*';
-}
-
 .beer-group h3 {
-  background-color: #fff;
+  background-color: rgba(255,255,255,0.4);
   color: #000;
   padding: 0.3em 0;
   margin: 3em 0 1em;
