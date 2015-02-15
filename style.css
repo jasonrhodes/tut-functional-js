@@ -61,6 +61,13 @@ a.header-logo {
   content: '*';
 }
 
+.beer-group h3 {
+  background-color: #fff;
+  color: #000;
+  padding: 0.3em 0;
+  margin: 3em 0 1em;
+}
+
 #beerList li small {
   font-size: 0.75em;
   color: #bbb;
