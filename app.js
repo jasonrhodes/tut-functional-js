@@ -16,20 +16,20 @@ function setActiveFilter(active) {
   active.classList.add('btn-active');
 }
 
-function filterBeers(beers, callback) {
-  var filteredBeers = [];
-  for (i=0; i<beers.length; i++) {
-    if (callback(beers[i])) {
-      filteredBeers.push(beers[i]);
+function filter(collection, callback) {
+  var filtered = [];
+  for (i=0; i<collection.length; i++) {
+    if (callback(collection[i])) {
+      filtered.push(collection[i]);
     }
   }
-  return filteredBeers;
+  return filtered;
 }
 
-function makeFilter(beers, property) {
+function makeFilter(collection, property) {
   return function (value) {
-    return filterBeers(beers, function (beer) {
-      return beer[property] === value;
+    return filter(collection, function (item) {
+      return item[property] === value;
     });
   }
 }
@@ -42,13 +42,12 @@ loadBeers(allBeers);
 filters.addEventListener('click', function (e) {
   e.preventDefault();
   var clicked = e.target;
-  var filter = clicked.dataset.filter;
+  var filterName = clicked.dataset.filter;
   var filteredBeers = [];
-  var i;
   
   setActiveFilter(clicked);
         
-  switch (filter) {
+  switch (filterName) {
     case 'all':
       filteredBeers = allBeers;
       break;
@@ -59,7 +58,7 @@ filters.addEventListener('click', function (e) {
       filteredBeers = filterByLocale('import');
       break;
     case 'ale':
-      filteredBeers = filterBeers(allBeers, function (beer) {
+      filteredBeers = filter(allBeers, function (beer) {
         return beer.type === 'ale' || beer.type === 'ipa';
       });
       break;
