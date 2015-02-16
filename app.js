@@ -2,11 +2,13 @@ var beerData = JSON.parse(document.getElementById("beerData").textContent);
 var allBeers = beerData.beers;
 var beerTemplate = document.getElementById("tmpl-beer").textContent;
 var beerList = document.getElementById("beerList");
+var averageAbv = document.getElementById("averageAbv");
 var filters = document.getElementById("filters");
 var filterLinks = filters.querySelectorAll("a");
 
 function loadBeers(beers) {
   beerList.innerHTML = _.template(beerTemplate)({ beers: beers });
+  averageAbv.innerHTML = 'Average ABV: ' + getAverageAbv(beers) + '%';
 }
 
 function setActiveFilter(active) {
@@ -32,6 +34,36 @@ function makeFilter(collection, property) {
       return item[property] === value;
     });
   }
+}
+
+function map(collection, callback) {
+  var mapped = [];
+  for (i=0; i<collection.length; i++) {
+    mapped.push(callback(collection[i]));
+  }
+  return mapped;
+}
+
+function reduce(collection, callback, initial) {
+  var last = initial;
+  for (i=0; i<collection.length; i++) {
+    last = callback(last, collection[i]);
+  }
+  return last;
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+function getAverageAbv(beers) {
+  var abvs = map(beers, function (beer) {
+    return beer.abv;
+  });
+
+  var total = reduce(abvs, add, 0);
+
+  return Math.round((total / beers.length) * 10) / 10;
 }
 
 var filterByLocale = makeFilter(allBeers, 'locale');
