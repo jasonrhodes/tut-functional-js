@@ -8,15 +8,15 @@ var filterLinks = filters.querySelectorAll("a");
 
 var fp = {};
 
-fp.filter = function (collection, callback) {
-  var filtered = [];
-  for (i=0; i<collection.length; i++) {
-    if (callback(collection[i])) {
-      filtered.push(collection[i]);
-    }
-  }
-  return filtered;
-};
+// fp.filter = function (collection, callback) {
+//   var filtered = [];
+//   for (i=0; i<collection.length; i++) {
+//     if (callback(collection[i])) {
+//       filtered.push(collection[i]);
+//     }
+//   }
+//   return filtered;
+// };
 
 fp.map = function (collection, callback) {
   var mapped = [];
@@ -81,7 +81,7 @@ function setActiveFilter(active) {
 
 function makeFilter(collection, property) {
   return function (value) {
-    return fp.filter(collection, function (item) {
+    return _.filter(collection, function (item) {
       return item[property] === value;
     });
   }
@@ -121,7 +121,7 @@ filters.addEventListener('click', function (e) {
       filteredBeers = filterByLocale('import');
       break;
     case 'ale':
-      filteredBeers = fp.filter(allBeers, function (beer) {
+      filteredBeers = _.filter(allBeers, function (beer) {
         return beer.type === 'ale' || beer.type === 'ipa';
       });
       break;
@@ -130,6 +130,9 @@ filters.addEventListener('click', function (e) {
       break;
     case 'stout':
       filteredBeers = filterByType('stout');
+      break;
+    case 'surprise':
+      filteredBeers = [_.sample(allBeers)];
       break;
   }
   
